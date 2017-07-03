@@ -1,5 +1,64 @@
 /*css here*/
-.sample {
-	background: #000;
-	padding: 0;
+ul.ctl-list {
+    list-style: none;
+    padding: 0;
+}
+
+ul.ctl-list li {
+    list-style: none;
+    text-align: center;
+}
+
+.ctl-title-container h4 {
+    color: #0aace0;
+}
+
+@media (min-width: 981px) {
+	/*5 cols*/
+	.ctl-5-cols > li {
+		float: left;
+		width: 19%;
+		margin-right: 1.25%;
+		margin-bottom: 15px;
+	}
+
+	.ctl-5-cols > li:nth-child(5n) {
+		margin-right: 0;
+	}
+
+	/*4 cols*/
+	.ctl-4-cols > li {
+		float: left;
+		width: 24%;
+		margin-right: 1.25%;
+		margin-bottom: 15px;
+	}
+
+	.ctl-4-cols > li:nth-child(4n) {
+		margin-right: 0;
+	}
+
+	/*3 cols*/
+	.ctl-3-cols > li {
+		float: left;
+		width: 32.33%;
+		margin-right: 1.25%;
+		margin-bottom: 15px;
+	}
+
+	.ctl-3-cols > li:nth-child(3n) {
+		margin-right: 0;
+	}
+
+	/*2 cols*/
+	.ctl-2-cols > li {
+		float: left;
+		width: 49%;
+		margin-right: 1.25%;
+		margin-bottom: 15px;
+	}
+
+	.ctl-2-cols > li:nth-child(2n) {
+		margin-right: 0;
+	}
 }

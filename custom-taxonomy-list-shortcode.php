@@ -28,10 +28,14 @@ Domain Path: Domain Path
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+
+define('CTL_URL', plugin_dir_url( __FILE__ ));
+
 function jf_custom_taxonomy_list( $atts ) {
     $a = shortcode_atts( array(
         'taxonomy' => '',
-        'hide_empty' => 'false'
+        'hide_empty' => 'false',
+        'column' => '1'
     ), $atts );
 
     if ($a['taxonomy']) {
@@ -57,9 +61,31 @@ function jf_custom_taxonomy_list( $atts ) {
 
 
 		if (!is_wp_error($terms )) {
+            $column = $a['column'];
+            switch ($column) {
+                case '1':
+                    $column_class = '';
+                    break;
+                case '2':
+                    $column_class = 'ctl-2-cols';
+                    break;
+                case '3':
+                    $column_class = 'ctl-3-cols';
+                    break;
+                case '4':
+                    $column_class = 'ctl-4-cols';
+                    break;
+                case '5':
+                    $column_class = 'ctl-5-cols';
+                    break;
+                default:
+                    $column_class = '';
+                    break;
+            }
+
 			$count = count( $terms );
 		    $i = 0;
-		    $term_list = '<ul class="ctl-list">';
+		    $term_list = '<ul class="ctl-list ' . $column_class . '">';
 		    foreach ( $terms as $term ) {
 		        $i++;
                 $term_list .= '<li>';
@@ -68,11 +94,11 @@ function jf_custom_taxonomy_list( $atts ) {
                 if (function_exists('aft_options_menu')) {
                     $meta_image = get_wp_term_image($term->term_id);
                     if ($meta_image) {
-                        $term_list .= '<div class="ctl-image-container"><img src="'. $meta_image .'"></div>';
+                        $term_list .= '<div class="ctl-image-container"><a href=" ' . get_term_link( $term ) . ' "><img src="'. $meta_image .'"></a></div>';
                     }
                 }
                 // end image here
-		        $term_list .= '<div class="ctl-title-container"><a href="' . esc_url( get_term_link( $term ) ) . '" alt="' . esc_attr( sprintf( __( 'View all post filed under %s', 'my_localization_domain' ), $term->name ) ) . '">' . $term->name . '</a></div>';
+		        $term_list .= '<div class="ctl-title-container"><h4><a href="' . esc_url( get_term_link( $term ) ) . '">' . $term->name . '</a></h4></div>';
                 $term_list .= '</li>';
 		    }
 		    $term_list .= '</ul>';
@@ -88,3 +114,18 @@ function jf_custom_taxonomy_list( $atts ) {
 }
 
 add_shortcode( 'custom_taxonomy_list', 'jf_custom_taxonomy_list' );
+
+/**
+ * Enqueue scripts
+ *
+ * @param string $handle Script name
+ * @param string $src Script url
+ * @param array $deps (optional) Array of script names on which this script depends
+ * @param string|bool $ver (optional) Script version (used for cache busting), set to null to disable
+ * @param bool $in_footer (optional) Whether to enqueue the script before </head> or before </body>
+ */
+function jf_plugin_scripts_styles() {
+    wp_enqueue_style( 'ctl-style', CTL_URL . 'css/style.css', array(), '1.0' );
+}
+
+add_action( 'wp_enqueue_scripts', 'jf_plugin_scripts_styles' );
