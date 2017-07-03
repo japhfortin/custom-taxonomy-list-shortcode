@@ -13,7 +13,7 @@ Domain Path: Domain Path
 
 /*
 
-    Copyright (C) Year  Author  Email
+    Copyright (C) 2017 Japheth Fortin japhfortin@gmail.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -35,6 +35,8 @@ function jf_custom_taxonomy_list( $atts ) {
     $a = shortcode_atts( array(
         'taxonomy' => '',
         'hide_empty' => 'false',
+        'orderby' => 'name',
+        'order' => 'DESC',
         'column' => '1'
     ), $atts );
 
